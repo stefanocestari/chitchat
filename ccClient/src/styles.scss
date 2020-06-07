@@ -1,0 +1,265 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    background: rgb(239,239,239);
+    background: linear-gradient(0deg, rgba(232,232,232,1) 0%, rgba(240,240,240,1) 100%);
+}
+
+@keyframes fadeZoomIn {
+    0% {
+      opacity: 0.8;
+      transform: scale(0.98)
+    }
+  
+    100% {
+      opacity: 1;
+      transform: scale(1)
+    }
+}
+  
+@keyframes fadeDropIn {
+0% {
+    opacity: 0;
+    transform: translateY(-10px)
+}
+
+100% {
+    opacity: 1;
+    transform: translateY(0)
+}
+}
+
+@keyframes fadeSlideUp {
+0% {
+    opacity: 0.8;
+    transform: translateY(20px)
+}
+
+100% {
+    opacity: 1;
+    transform: translateY(0)
+}
+}
+
+@keyframes fadeSlideDown {
+0% {
+    opacity: 0;
+    top: -10px;
+}
+
+100% {
+    opacity: 1;
+    top: 0;
+}
+}
+
+@keyframes spin {
+100% {
+    transform: rotate(360deg)
+}
+}
+
+.fade-zoom-in {
+    opacity: 0;
+    animation: fadeZoomIn 0.1s forwards;
+}
+
+.fade-drop-in {
+    opacity: 0;
+    animation: fadeDropIn 0.1s forwards;
+}
+
+.error{
+    color:red;
+    margin: 0;
+}
+
+.slow {
+    animation-duration: 0.5s;
+}
+
+.d3 {animation-delay: 0.3s;}
+.d6 {animation-delay: 0.6s;}
+.d9 {animation-delay: 0.9s;}
+
+.header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.content.row{
+    height: 100vh;
+}
+
+.chat-content.row{
+    height: calc(100vh - 60px);
+    overflow: hidden;
+
+    .sidebar, 
+    .main, 
+    .status {
+        height: 100%;
+    }
+}
+
+.login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel{
+    padding: 2rem 4rem 3rem;
+    border-radius: 1rem;
+    background-color: white;
+}
+
+.sidebar{
+    height: 100%;
+    overflow: auto;
+
+    .rooms {
+        height: 33%;
+        overflow: hidden;
+
+        .item{
+            cursor: pointer;
+            transition: margin 0.2s;
+        }
+
+        .item:hover, .item:active{
+            margin-left: 0.6rem;
+        }
+    }
+
+    .users {
+        height: 66%;
+        overflow: hidden;
+
+        h6 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    .list {
+        height: calc(100% - 30px);
+        border-radius: 4px;
+        overflow: auto;
+
+        .item{
+            font-size: .8rem;
+            background-color: white;
+            border-top: 1px solid #efefef;
+            border-bottom: 1px solid #efefef;
+            padding: .2rem .4rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+    }
+}
+
+.status{
+    p{ font-size: 0.6rem;}
+}
+
+.circle {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 1rem;
+    margin-right: .4rem;
+    background-color: #efefef;
+}
+
+.active .circle{
+    background-color: #007bff;
+}
+
+.message{
+
+    .row{
+        margin: 0;
+    }
+
+    .circle-col {
+        width: 2rem
+    }
+
+    .circle{
+        height: 2rem;
+        width: 2rem;
+        border-radius: 2rem;
+        margin:0;
+        background-color: white;
+    }
+
+    .user-name{
+        font-weight: 500;
+    }
+
+    .time{
+        color: #aaa;
+        font-size: .7rem;
+    }
+}
+
+.current-room{
+    height: calc(100vh - 90px);
+
+}
+
+.message-list{
+    height: calc( 100% - 90px);
+    position: relative;
+    overflow-y: auto;
+}
+
+.current-home{
+    height: 100%;
+
+    h6{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+
+@media (max-width: 767px) { 
+
+    .panel{
+        padding: 1rem 1rem 1.5rem;
+    }    
+
+    .sidebar{
+        position: absolute;
+        transition: left 0.5s ease-out;
+        background: linear-gradient(0deg, #e8e8e8 0%, #f0f0f0 100%);
+        z-index: 1;
+    }
+
+    .sidebar.open{
+        left: 0;
+    }
+
+    .sidebar.closed{
+        left: -100%
+    }
+
+    .sidebar .users {
+        height: calc( 66% - 50px);
+    }
+
+    .room-creator{
+        margin-bottom: 1rem;
+    }
+
+    .message-list {
+        height: calc( 100% - 110px);
+    }
+
+}

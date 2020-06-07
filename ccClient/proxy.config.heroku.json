@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+      "target": "https://h4h-cc-api.herokuapp.com/",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    }
+}

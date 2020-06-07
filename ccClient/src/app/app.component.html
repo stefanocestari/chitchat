@@ -1,0 +1,170 @@
+
+<div class="container-fluid">
+
+    <ng-container *ngIf="!loggedUser">
+        <div class="row content justify-content-sm-center">    
+            <div class="col-sm-12 col-md-6 login">
+                <div class="panel fade-drop-in slow">
+                    <h6>Insert your username</h6>
+                    <form class="input-group">
+                        <input class="form-control" [(ngModel)]="userName" name="username"/>
+                        <button class="btn btn-primary" (click)="join()">Submit</button>
+                    </form>
+                    <p class="error fade-drop-in" *ngIf="loginError">
+                        {{loginError}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="loggedUser">
+        
+        <div class="header fade-drop-in slow">
+            <h3 class="logo">
+                <span class="d-none d-md-inline">ChitChat</span>
+                <span class="d-md-none">
+                    <fa-icon 
+                        [icon]="['fas', 'bars']" 
+                        (click)="toggleMenu()">
+                    </fa-icon>
+                    CC
+                </span>
+            </h3>
+            <div class="user-info">
+                <span>
+                    <span class="d-none d-md-inline">Welcome</span> 
+                    <b>{{loggedUser.name}}</b>
+                </span>
+                <button class="btn btn-secondary btn-sm" (click)="logout()">
+                    <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
+                    LOGOUT
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row chat-content">
+
+            <div class="col-sm-12 col-md-3 fade-drop-in slow d3 sidebar" 
+                [ngClass]="menuOpen ? 'open' : 'closed'">
+
+                <form class="input-group d-md-none room-creator">
+                    <input class="form-control" [(ngModel)]="roomName" name="roomname" placeholder="Create a Room"/>
+                    <button class="btn btn-primary" (click)="createRoom()">Submit</button> 
+                </form>
+
+                <div class="box rooms">
+                    <h6>Rooms</h6>
+                    <div class="list">
+                        <div class="item" 
+                            *ngFor="let room of rooms"  
+                            [ngClass]="{ 'active' : currentRoom && room.name == currentRoom.name }"
+                            (click)="moveToRoom(room)">
+                            <div class="circle">
+                            </div>
+                            {{room.name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box users">
+                    <h6>
+                        Users 
+                        <span *ngIf="currentRoom">
+                            
+                            <button 
+                                class="btn btn-sm" 
+                                (click)="showRoomUsers = false" 
+                                [ngClass]="!showRoomUsers ? 'btn-primary' : 'btn-secondary' ">
+                                online
+                            </button>
+                            
+                            <button 
+                                class="btn btn-sm" 
+                                (click)="showRoomUsers = true" 
+                                [ngClass]="showRoomUsers ? 'btn-primary' : 'btn-secondary' ">
+                                in room
+                            </button>
+
+                        </span>
+                    </h6>
+
+                    <div class="list" *ngIf="!showRoomUsers">
+                        <div class="item" 
+                            *ngFor="let user of users" 
+                            [ngClass]="{ 'active' : loggedUser && user.name == loggedUser.name }">
+                            <div class="circle"></div>
+                            {{user.name}}
+                        </div>
+                    </div>
+
+                    <div class="list" *ngIf="showRoomUsers">
+                        <div class="item" 
+                            *ngFor="let ruser of currentRoom.users" 
+                            [ngClass]="{ 'active' : loggedUser && ruser.name == loggedUser.name }">
+                            <div class="circle"></div>
+                            {{ruser.name}}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-sm-12 col-md-7 fade-drop-in slow d6 main">
+                <div class="current-home fade-drop-in slow" *ngIf="currentRoom">
+                    <h6>
+                        <span>Welcome to room {{ currentRoom.name }}</span>             
+                        <button class="btn btn-secondary btn-sm" (click)="leaveRoom(currentRoom)" *ngIf="currentRoom" >
+                            LEAVE ROOM
+                        </button>
+                    </h6>
+                    <div class="message-list">
+                        <div class="message-slider">
+
+                            <div class="message" *ngFor="let message of messages">
+                                <div class="row">
+                                    <div class="circle-col">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="col">
+                                        <div>
+                                            <span class="user-name">{{message.user.name}}</span>
+                                            <span class="time">{{message.createdAt | date:'long' }}</span>
+                                        </div>
+                                        <p>{{message.text}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div #endPage></div>
+                    </div>
+                    <form class="input-group">
+                        <input class="form-control" [(ngModel)]="chatMessage" name="chatmessage" placeholder="Type your message"/>
+                        <button class="btn btn-primary" (click)="sendChatMessage(currentRoom, chatMessage)">Submit</button> 
+                    </form>
+                </div>
+                <div *ngIf="!currentRoom">
+                    <h6>Create a Room:</h6>
+                    <form class="input-group">
+                        <input class="form-control" [(ngModel)]="roomName" name="roomname"/>
+                        <button class="btn btn-primary" (click)="createRoom()">Submit</button> 
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-2 fade-drop-in slow d9 status">
+                <h6>Status info:</h6>
+                <div class="list">
+                    <p *ngFor="let statusMessage of status">
+                        {{statusMessage}}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        
+    </ng-container>
+
+
+</div>
